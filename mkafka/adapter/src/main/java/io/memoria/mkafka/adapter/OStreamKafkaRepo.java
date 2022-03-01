@@ -1,30 +1,10 @@
 package io.memoria.mkafka.adapter;
 
-import io.memoria.reactive.core.stream.OMsg;
 import io.memoria.reactive.core.stream.OStreamRepo;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import io.vavr.collection.Map;
 
-public class OStreamKafkaRepo implements OStreamRepo {
-
-  @Override
-  public Mono<String> create(String topic) {
-    return null;
-  }
-
-  @Override
-  public Mono<Integer> publish(String topic, OMsg oMsg) {
-    
-    return null;
-  }
-
-  @Override
-  public Mono<Integer> size(String topic) {
-    return null;
-  }
-
-  @Override
-  public Flux<OMsg> subscribe(String topic, int skipped) {
-    return null;
+public interface OStreamKafkaRepo extends OStreamRepo {
+  static OStreamRepo create(Map<String, Object> producerConfig, Map<String, Object> consumerConfig) {
+    return new DefaultOStreamKafkaRepo(producerConfig, consumerConfig);
   }
 }
