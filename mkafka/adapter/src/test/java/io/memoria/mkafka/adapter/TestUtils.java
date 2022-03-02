@@ -8,7 +8,6 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import reactor.kafka.sender.SenderRecord;
 
 public class TestUtils {
   private TestUtils() {}
@@ -22,10 +21,6 @@ public class TestUtils {
                       StringDeserializer.class,
                       ConsumerConfig.GROUP_ID_CONFIG,
                       "some_group_id");
-  }
-
-  public static SenderRecord<Long, String, Long> createMsg(String topic, int partition, long timestamp, long i) {
-    return SenderRecord.create(topic, partition, timestamp, i, "Message_" + i, i);
   }
 
   public static Map<String, Object> producerConfigs() {
