@@ -7,7 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 
-public class RKafkaUtils {
+class RKafkaUtils {
   private RKafkaUtils() {}
 
   public static OMsg toOMsg(ConsumerRecord<Long, String> record) {
