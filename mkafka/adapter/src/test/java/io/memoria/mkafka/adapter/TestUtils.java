@@ -13,6 +13,17 @@ import reactor.kafka.sender.SenderRecord;
 public class TestUtils {
   private TestUtils() {}
 
+  public static Map<String, Object> consumerConfigs() {
+    return HashMap.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                      "localhost:9092",
+                      ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+                      LongDeserializer.class,
+                      ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                      StringDeserializer.class,
+                      ConsumerConfig.GROUP_ID_CONFIG,
+                      "some_group_id");
+  }
+
   public static SenderRecord<Long, String, Long> createMsg(String topic, int partition, long timestamp, long i) {
     return SenderRecord.create(topic, partition, timestamp, i, "Message_" + i, i);
   }
@@ -24,16 +35,5 @@ public class TestUtils {
                       LongSerializer.class,
                       ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                       StringSerializer.class);
-  }
-
-  public static Map<String, Object> consumerConfigs() {
-    return HashMap.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                      "localhost:9092",
-                      ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                      LongDeserializer.class,
-                      ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                      StringDeserializer.class,
-                      ConsumerConfig.GROUP_ID_CONFIG,
-                      "some_group_id");
   }
 }

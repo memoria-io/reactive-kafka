@@ -1,9 +1,7 @@
 package io.memoria.mkafka.adapter;
 
 import io.memoria.reactive.core.stream.OMsg;
-import io.vavr.collection.List;
 import io.vavr.collection.Map;
-import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.common.TopicPartition;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -69,12 +67,12 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
     return receiver.receiveAutoAck().concatMap(Function.identity()).map(RKafkaUtils::toOMsg);
   }
 
-  private SenderRecord<Long, String, Long> toRecord(String topic, int partition, OMsg oMsg) {
-    return SenderRecord.create(topic, partition, timeSupplier.get(), oMsg.sKey(), oMsg.value(), oMsg.sKey());
-  }
-
   private KafkaSender<Long, String> createSender() {
     var senderOptions = SenderOptions.<Long, String>create(producerConfig.toJavaMap()).maxInFlight(maxInFlight);
     return KafkaSender.create(senderOptions);
+  }
+
+  private SenderRecord<Long, String, Long> toRecord(String topic, int partition, OMsg oMsg) {
+    return SenderRecord.create(topic, partition, timeSupplier.get(), oMsg.sKey(), oMsg.value(), oMsg.sKey());
   }
 }

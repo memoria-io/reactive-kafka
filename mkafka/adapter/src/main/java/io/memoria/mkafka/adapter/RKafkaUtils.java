@@ -6,15 +6,9 @@ import io.vavr.collection.Map;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
-import reactor.kafka.receiver.KafkaReceiver;
-import reactor.kafka.receiver.ReceiverOptions;
-import reactor.kafka.sender.KafkaSender;
-import reactor.kafka.sender.SenderOptions;
 
 public class RKafkaUtils {
   private RKafkaUtils() {}
-
-  
 
   public static OMsg toOMsg(ConsumerRecord<Long, String> record) {
     return new OMsg(record.key(), record.value());
