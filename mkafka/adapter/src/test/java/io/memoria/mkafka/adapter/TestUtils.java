@@ -32,6 +32,8 @@ public class TestUtils {
                       ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                       LongDeserializer.class,
                       ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                      StringDeserializer.class);
+                      StringDeserializer.class,
+                      ConsumerConfig.GROUP_ID_CONFIG,
+                      "some_group_id");
   }
 }

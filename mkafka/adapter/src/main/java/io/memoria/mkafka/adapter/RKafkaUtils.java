@@ -14,15 +14,7 @@ import reactor.kafka.sender.SenderOptions;
 public class RKafkaUtils {
   private RKafkaUtils() {}
 
-  public static KafkaReceiver<Long, String> createReceiver(Map<String, Object> conf) {
-    var receiverOptions = ReceiverOptions.<Long, String>create(conf.toJavaMap());
-    return KafkaReceiver.create(receiverOptions);
-  }
-
-  public static KafkaSender<Long, String> createSender(Map<String, Object> conf, int maxInFlight) {
-    var senderOptions = SenderOptions.<Long, String>create(conf.toJavaMap()).maxInFlight(maxInFlight);
-    return KafkaSender.create(senderOptions);
-  }
+  
 
   public static OMsg toOMsg(ConsumerRecord<Long, String> record) {
     return new OMsg(record.key(), record.value());
