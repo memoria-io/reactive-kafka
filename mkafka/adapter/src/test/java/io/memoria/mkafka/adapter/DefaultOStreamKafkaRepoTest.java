@@ -37,7 +37,7 @@ class DefaultOStreamKafkaRepoTest {
   void subscribe() {
     // Given previous publish ran successfully
     // When
-    var sub = repo.subscribe(topic, partition, 0).take(MSG_COUNT).doOnNext(System.out::println);
+    var sub = repo.subscribe(topic, partition, 0).take(MSG_COUNT);
     // Given
     StepVerifier.create(sub).expectNextCount(MSG_COUNT).verifyComplete();
   }

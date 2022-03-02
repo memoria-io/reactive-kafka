@@ -63,15 +63,9 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
   public Flux<OMsg> subscribe(String topic, int partition, long offset) {
     var tp = new TopicPartition(topic, partition);
     var receiverOptions = ReceiverOptions.<Long, String>create(consumerConfig.toJavaMap())
-                                         .assignment(singleton(tp))
-                                         .addAssignListener(partitions -> partitions.forEach(p -> p.seek(offset)));
-    //                                         .subscription(List.of(topic).toJavaList());
+                                         .addAssignListener(partitions -> partitions.forEach(p -> p.seek(offset)))
+                                         .assignment(singleton(tp));
     var receiver = KafkaReceiver.create(receiverOptions);
-    //    return receiver.doOnConsumer(consumer -> {
-    //      seek(consumer, tp, offset);
-    //      System.out.println(consumer.listTopics());
-    //      return receiver;
-    //    });
     return receiver.receiveAutoAck().concatMap(Function.identity()).map(RKafkaUtils::toOMsg);
   }
 
