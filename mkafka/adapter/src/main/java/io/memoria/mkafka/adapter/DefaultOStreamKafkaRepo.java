@@ -69,11 +69,6 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
     return receiver.receiveAutoAck().concatMap(Function.identity()).map(RKafkaUtils::toOMsg);
   }
 
-  private void seek(Consumer<Long, String> consumer, TopicPartition tp, long offset) {
-    consumer.assign(List.of(tp).toJavaList());
-    consumer.seek(tp, offset);
-  }
-
   private SenderRecord<Long, String, Long> toRecord(String topic, int partition, OMsg oMsg) {
     return SenderRecord.create(topic, partition, timeSupplier.get(), oMsg.sKey(), oMsg.value(), oMsg.sKey());
   }
