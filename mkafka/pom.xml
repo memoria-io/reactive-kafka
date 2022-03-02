@@ -12,7 +12,7 @@
     <groupId>io.memoria</groupId>
     <artifactId>mkafka</artifactId>
     <version>0.0.1</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>${project.groupId}.${project.artifactId}</name>
     <description>massandra Parent Pom</description>
@@ -21,11 +21,6 @@
         <name>memoria</name>
         <url>https://memoria.io</url>
     </organization>
-
-    <modules>
-        <module>model</module>
-        <module>adapter</module>
-    </modules>
     <properties>
         <reactive.version>0.347.0</reactive.version>
         <reactor.version>2020.0.16</reactor.version>

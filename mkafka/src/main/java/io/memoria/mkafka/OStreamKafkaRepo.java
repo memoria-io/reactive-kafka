@@ -1,4 +1,4 @@
-package io.memoria.mkafka.adapter;
+package io.memoria.mkafka;
 
 import io.memoria.reactive.core.stream.OStreamRepo;
 import io.vavr.collection.Map;

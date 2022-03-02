@@ -1,4 +1,4 @@
-package io.memoria.mkafka.adapter;
+package io.memoria.mkafka;
 
 import io.memoria.reactive.core.stream.OMsg;
 import io.vavr.collection.Map;
