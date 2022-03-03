@@ -1,6 +1,7 @@
 package io.memoria.mkafka;
 
-import io.memoria.reactive.core.stream.OMsg;
+import io.memoria.reactive.core.id.Id;
+import io.memoria.reactive.core.stream.Msg;
 import io.vavr.collection.Map;
 import org.apache.kafka.common.TopicPartition;
 import reactor.core.publisher.Flux;
@@ -41,13 +42,13 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
   }
 
   @Override
-  public Mono<Long> publish(String topic, int partition, OMsg oMsg) {
+  public Mono<Id> publish(String topic, int partition, Msg oMsg) {
     var senderRec = toRecord(topic, partition, oMsg);
     return createSender().send(Mono.just(senderRec)).next().map(SenderResult::correlationMetadata);
   }
 
   @Override
-  public Flux<Long> publish(String topic, int partition, Flux<OMsg> msgs) {
+  public Flux<Id> publish(String topic, int partition, Flux<Msg> msgs) {
     var records = msgs.map(msg -> toRecord(topic, partition, msg));
     return createSender().send(records).map(SenderResult::correlationMetadata);
   }
@@ -58,21 +59,21 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
   }
 
   @Override
-  public Flux<OMsg> subscribe(String topic, int partition, long offset) {
+  public Flux<Msg> subscribe(String topic, int partition, long offset) {
     var tp = new TopicPartition(topic, partition);
-    var receiverOptions = ReceiverOptions.<Long, String>create(consumerConfig.toJavaMap())
+    var receiverOptions = ReceiverOptions.<String, String>create(consumerConfig.toJavaMap())
                                          .addAssignListener(partitions -> partitions.forEach(p -> p.seek(offset)))
                                          .assignment(singleton(tp));
     var receiver = KafkaReceiver.create(receiverOptions);
-    return receiver.receiveAutoAck().concatMap(Function.identity()).map(RKafkaUtils::toOMsg);
+    return receiver.receiveAutoAck().concatMap(Function.identity()).map(RKafkaUtils::toMsg);
   }
 
-  private KafkaSender<Long, String> createSender() {
-    var senderOptions = SenderOptions.<Long, String>create(producerConfig.toJavaMap()).maxInFlight(maxInFlight);
+  private KafkaSender<String, String> createSender() {
+    var senderOptions = SenderOptions.<String, String>create(producerConfig.toJavaMap()).maxInFlight(maxInFlight);
     return KafkaSender.create(senderOptions);
   }
 
-  private SenderRecord<Long, String, Long> toRecord(String topic, int partition, OMsg oMsg) {
-    return SenderRecord.create(topic, partition, timeSupplier.get(), oMsg.sKey(), oMsg.value(), oMsg.sKey());
+  private SenderRecord<String, String, Id> toRecord(String topic, int partition, Msg oMsg) {
+    return SenderRecord.create(topic, partition, timeSupplier.get(), oMsg.id().value(), oMsg.value(), oMsg.id());
   }
 }

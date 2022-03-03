@@ -1,6 +1,7 @@
 package io.memoria.mkafka;
 
-import io.memoria.reactive.core.stream.OMsg;
+import io.memoria.reactive.core.id.Id;
+import io.memoria.reactive.core.stream.Msg;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
@@ -23,7 +24,7 @@ class DefaultOStreamKafkaRepoTest {
   @Order(0)
   void publish() {
     // Given
-    var msgs = Flux.range(0, MSG_COUNT).map(i -> new OMsg(i, "hello" + i));
+    var msgs = Flux.range(0, MSG_COUNT).map(i -> new Msg(Id.of(i), "hello" + i));
     // When
     var pub = repo.publish(topic, partition, msgs);
     var size = repo.size(topic, partition);

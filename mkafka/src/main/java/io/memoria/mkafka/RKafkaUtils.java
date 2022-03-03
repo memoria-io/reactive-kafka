@@ -1,6 +1,7 @@
 package io.memoria.mkafka;
 
-import io.memoria.reactive.core.stream.OMsg;
+import io.memoria.reactive.core.id.Id;
+import io.memoria.reactive.core.stream.Msg;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -10,8 +11,8 @@ import org.apache.kafka.common.TopicPartition;
 class RKafkaUtils {
   private RKafkaUtils() {}
 
-  public static OMsg toOMsg(ConsumerRecord<Long, String> record) {
-    return new OMsg(record.key(), record.value());
+  public static Msg toMsg(ConsumerRecord<String, String> record) {
+    return new Msg(Id.of(record.key()), record.value());
   }
 
   public static long topicSize(String topic, int partition, Map<String, Object> conf) {
