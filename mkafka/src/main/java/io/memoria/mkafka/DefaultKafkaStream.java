@@ -18,23 +18,23 @@ import java.util.function.Supplier;
 
 import static java.util.Collections.singleton;
 
-class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
+class DefaultKafkaStream implements KafkaStream {
   public static final int DEFAULT_MAX_IN_FLIGHT = 1024;
   public final Map<String, Object> producerConfig;
   public final Map<String, Object> consumerConfig;
   public final int maxInFlight;
   private final Supplier<Long> timeSupplier;
 
-  DefaultOStreamKafkaRepo(Map<String, Object> producerConfig,
-                          Map<String, Object> consumerConfig,
-                          Supplier<Long> timeSupplier) {
+  DefaultKafkaStream(Map<String, Object> producerConfig,
+                     Map<String, Object> consumerConfig,
+                     Supplier<Long> timeSupplier) {
     this(producerConfig, consumerConfig, DEFAULT_MAX_IN_FLIGHT, timeSupplier);
   }
 
-  DefaultOStreamKafkaRepo(Map<String, Object> producerConfig,
-                          Map<String, Object> consumerConfig,
-                          int maxInFlight,
-                          Supplier<Long> timeSupplier) {
+  DefaultKafkaStream(Map<String, Object> producerConfig,
+                     Map<String, Object> consumerConfig,
+                     int maxInFlight,
+                     Supplier<Long> timeSupplier) {
     this.producerConfig = producerConfig;
     this.consumerConfig = consumerConfig;
     this.maxInFlight = maxInFlight;
@@ -42,14 +42,8 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
   }
 
   @Override
-  public Mono<Id> publish(String topic, int partition, Msg oMsg) {
-    var senderRec = toRecord(topic, partition, oMsg);
-    return createSender().send(Mono.just(senderRec)).next().map(SenderResult::correlationMetadata);
-  }
-
-  @Override
-  public Flux<Id> publish(String topic, int partition, Flux<Msg> msgs) {
-    var records = msgs.map(msg -> toRecord(topic, partition, msg));
+  public Flux<Id> publish(Flux<Msg> msgs) {
+    var records = msgs.map(this::toRecord);
     return createSender().send(records).map(SenderResult::correlationMetadata);
   }
 
@@ -73,7 +67,12 @@ class DefaultOStreamKafkaRepo implements OStreamKafkaRepo {
     return KafkaSender.create(senderOptions);
   }
 
-  private SenderRecord<String, String, Id> toRecord(String topic, int partition, Msg oMsg) {
-    return SenderRecord.create(topic, partition, timeSupplier.get(), oMsg.id().value(), oMsg.value(), oMsg.id());
+  private SenderRecord<String, String, Id> toRecord(Msg msg) {
+    return SenderRecord.create(msg.topic(),
+                               msg.partition(),
+                               timeSupplier.get(),
+                               msg.id().value(),
+                               msg.value(),
+                               msg.id());
   }
 }
