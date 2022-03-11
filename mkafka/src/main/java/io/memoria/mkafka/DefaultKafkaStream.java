@@ -46,15 +46,7 @@ class DefaultKafkaStream implements KafkaStream {
 
   @Override
   public Flux<Msg> subscribe(String topic, int partition, long offset) {
-    return receive(topic, partition, offset).doOnNext(record -> {
-      var off = record.receiverOffset();
-      System.out.printf("Received message: topic-partition=%s offset=%d key=%s value=%s\n",
-                        off.topicPartition(),
-                        off.offset(),
-                        record.key(),
-                        record.value());
-      off.acknowledge();
-    }).map(RKafkaUtils::toMsg);
+    return receive(topic, partition, offset).map(RKafkaUtils::toMsg);
   }
 
   private Flux<ReceiverRecord<String, String>> receive(String topic, int partition, long offset) {

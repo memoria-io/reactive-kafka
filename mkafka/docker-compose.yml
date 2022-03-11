@@ -22,13 +22,13 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 3
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka1 
-          -Dcom.sun.management.jmxremote.local.only=false 
-          -Dcom.sun.management.jmxremote.rmi.port=9999 
-          -Dcom.sun.management.jmxremote.port=9999 
-          -Dcom.sun.management.jmxremote.authenticate=false 
-          -Dcom.sun.management.jmxremote.ssl=false"
+#      KAFKA_JMX_PORT: 9999
+#      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka1 
+#          -Dcom.sun.management.jmxremote.local.only=false 
+#          -Dcom.sun.management.jmxremote.rmi.port=9999 
+#          -Dcom.sun.management.jmxremote.port=9999 
+#          -Dcom.sun.management.jmxremote.authenticate=false 
+#          -Dcom.sun.management.jmxremote.ssl=false"
   kafka2:
     image: wurstmeister/kafka:2.13-2.8.1
     ports:
@@ -47,13 +47,13 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 3
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka2
-              -Dcom.sun.management.jmxremote.local.only=false 
-              -Dcom.sun.management.jmxremote.rmi.port=9999 
-              -Dcom.sun.management.jmxremote.port=9999 
-              -Dcom.sun.management.jmxremote.authenticate=false 
-              -Dcom.sun.management.jmxremote.ssl=false"
+#      KAFKA_JMX_PORT: 9999
+#      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka2
+#              -Dcom.sun.management.jmxremote.local.only=false 
+#              -Dcom.sun.management.jmxremote.rmi.port=9999 
+#              -Dcom.sun.management.jmxremote.port=9999 
+#              -Dcom.sun.management.jmxremote.authenticate=false 
+#              -Dcom.sun.management.jmxremote.ssl=false"
   kafka3:
     image: wurstmeister/kafka:2.13-2.8.1
     ports:
@@ -72,13 +72,13 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 3
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka3
-                  -Dcom.sun.management.jmxremote.local.only=false 
-                  -Dcom.sun.management.jmxremote.rmi.port=9999 
-                  -Dcom.sun.management.jmxremote.port=9999 
-                  -Dcom.sun.management.jmxremote.authenticate=false 
-                  -Dcom.sun.management.jmxremote.ssl=false"
+#      KAFKA_JMX_PORT: 9999
+#      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka3
+#                  -Dcom.sun.management.jmxremote.local.only=false 
+#                  -Dcom.sun.management.jmxremote.rmi.port=9999 
+#                  -Dcom.sun.management.jmxremote.port=9999 
+#                  -Dcom.sun.management.jmxremote.authenticate=false 
+#                  -Dcom.sun.management.jmxremote.ssl=false"
   kafka-manager:
     image: sheepkiller/kafka-manager
     depends_on:
