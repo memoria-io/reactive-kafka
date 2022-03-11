@@ -2,6 +2,7 @@ package io.memoria.mkafka;
 
 import io.memoria.reactive.core.id.Id;
 import io.memoria.reactive.core.stream.Msg;
+import io.memoria.reactive.core.stream.Stream;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -17,10 +18,10 @@ class DefaultKafkaStreamTest {
   private static final int MSG_COUNT = 1000;
   private static final String TOPIC = "node" + random.nextInt(1000);
   private static final int PARTITION = 0;
-  private static final DefaultKafkaStream repo;
+  private static final Stream repo;
 
   static {
-    repo = new DefaultKafkaStream(TestUtils.producerConfigs(), TestUtils.consumerConfigs(), () -> 1L);
+    repo = KafkaStream.create(TestUtils.producerConfigs(), TestUtils.consumerConfigs(), () -> 1L);
   }
 
   @Test
@@ -37,10 +38,8 @@ class DefaultKafkaStreamTest {
     var msgs = Flux.range(0, MSG_COUNT).map(i -> new Msg(TOPIC, PARTITION, Id.of(i), "hello" + i));
     // When
     var pub = repo.publish(msgs);
-    var size = repo.size(TOPIC, PARTITION);
     // Then
     StepVerifier.create(pub).expectNextCount(MSG_COUNT).verifyComplete();
-    StepVerifier.create(size).expectNext((long) MSG_COUNT).verifyComplete();
   }
 
   @Test
