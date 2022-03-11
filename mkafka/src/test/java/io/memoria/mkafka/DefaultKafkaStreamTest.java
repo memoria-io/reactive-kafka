@@ -2,12 +2,12 @@ package io.memoria.mkafka;
 
 import io.memoria.reactive.core.id.Id;
 import io.memoria.reactive.core.stream.Msg;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import java.util.Random;
 
@@ -15,7 +15,7 @@ import java.util.Random;
 class DefaultKafkaStreamTest {
   private static final Random random = new Random();
   private static final int MSG_COUNT = 1000;
-  private static final String TOPIC = "SomeTopic" + random.nextInt(1000);
+  private static final String TOPIC = "node" + random.nextInt(1000);
   private static final int PARTITION = 0;
   private static final DefaultKafkaStream repo;
 
@@ -48,7 +48,7 @@ class DefaultKafkaStreamTest {
   void subscribe() {
     // Given previous publish ran successfully
     // When
-    var sub = repo.subscribe(TOPIC, PARTITION, 0).take(MSG_COUNT);
+    var sub = repo.subscribe(TOPIC, PARTITION, MSG_COUNT).take(MSG_COUNT);
     // Given
     StepVerifier.create(sub).expectNextCount(MSG_COUNT).verifyComplete();
   }
