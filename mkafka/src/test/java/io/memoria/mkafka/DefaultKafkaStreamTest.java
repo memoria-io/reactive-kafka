@@ -57,6 +57,6 @@ class DefaultKafkaStreamTest {
   @Order(3)
   void sizeAfter() {
     var size = repo.size(TOPIC, PARTITION);
-    StepVerifier.create(size).expectNext(1000L).verifyComplete();
+    StepVerifier.create(size).expectNext((long) MSG_COUNT).verifyComplete();
   }
 }
