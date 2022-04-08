@@ -21,6 +21,6 @@ class RKafkaUtils {
     var tpCol = List.of(tp).toJavaList();
     consumer.assign(tpCol);
     consumer.seekToEnd(tpCol);
-    return consumer.position(tp);
+    return consumer.position(tp);    
   }
 }
