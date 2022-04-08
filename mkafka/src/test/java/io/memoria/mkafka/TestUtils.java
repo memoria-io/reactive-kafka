@@ -12,7 +12,7 @@ public class TestUtils {
 
   public static Map<String, Object> consumerConfigs() {
     return HashMap.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                      "localhost:9092",
+                      "localhost:9091",
                       ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,
                       false,
                       ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
@@ -27,7 +27,7 @@ public class TestUtils {
 
   public static Map<String, Object> producerConfigs() {
     return HashMap.of(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                      "localhost:9092",
+                      "localhost:9091",
                       ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,
                       false,
                       ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
