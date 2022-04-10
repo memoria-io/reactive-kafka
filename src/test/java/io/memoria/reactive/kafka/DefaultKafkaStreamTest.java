@@ -1,4 +1,4 @@
-package io.memoria.mkafka;
+package io.memoria.reactive.kafka;
 
 import io.memoria.reactive.core.id.Id;
 import io.memoria.reactive.core.stream.Msg;

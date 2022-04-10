@@ -1,4 +1,4 @@
-package io.memoria.mkafka;
+package io.memoria.reactive.kafka;
 
 import io.vavr.collection.HashMap;
 import io.vavr.collection.Map;
