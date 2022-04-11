@@ -35,8 +35,8 @@ class DefaultKafkaStream implements KafkaStream {
   }
 
   @Override
-  public Flux<Msg> publish(Flux<Msg> msgs) {
-    var records = msgs.map(this::toRecord);
+  public Flux<Msg> publish(String topic, int partition, Flux<Msg> msgs) {
+    var records = msgs.map(msg -> toRecord(topic, partition, msg));
     return createSender().send(records).map(SenderResult::correlationMetadata);
   }
 
@@ -50,6 +50,11 @@ class DefaultKafkaStream implements KafkaStream {
     return receive(topic, partition, offset).map(RKafkaUtils::toMsg);
   }
 
+  private KafkaSender<String, String> createSender() {
+    var senderOptions = SenderOptions.<String, String>create(producerConfig.toJavaMap());
+    return KafkaSender.create(senderOptions);
+  }
+
   private Flux<ReceiverRecord<String, String>> receive(String topic, int partition, long offset) {
     var tp = new TopicPartition(topic, partition);
     var receiverOptions = ReceiverOptions.<String, String>create(consumerConfig.toJavaMap())
@@ -59,12 +64,7 @@ class DefaultKafkaStream implements KafkaStream {
     return KafkaReceiver.create(receiverOptions).receive();
   }
 
-  private KafkaSender<String, String> createSender() {
-    var senderOptions = SenderOptions.<String, String>create(producerConfig.toJavaMap());
-    return KafkaSender.create(senderOptions);
-  }
-
-  private SenderRecord<String, String, Msg> toRecord(Msg msg) {
-    return SenderRecord.create(msg.topic(), msg.partition(), timeSupplier.get(), msg.id().value(), msg.value(), msg);
+  private SenderRecord<String, String, Msg> toRecord(String topic, int partition, Msg msg) {
+    return SenderRecord.create(topic, partition, timeSupplier.get(), msg.id().value(), msg.value(), msg);
   }
 }

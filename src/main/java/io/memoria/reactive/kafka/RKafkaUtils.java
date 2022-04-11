@@ -12,7 +12,7 @@ class RKafkaUtils {
   private RKafkaUtils() {}
 
   public static Msg toMsg(ConsumerRecord<String, String> record) {
-    return new Msg(record.topic(), record.partition(), Id.of(record.key()), record.value());
+    return new Msg(Id.of(record.key()), record.value());
   }
 
   public static long topicSize(String topic, int partition, Map<String, Object> conf) {
@@ -21,6 +21,6 @@ class RKafkaUtils {
     var tpCol = List.of(tp).toJavaList();
     consumer.assign(tpCol);
     consumer.seekToEnd(tpCol);
-    return consumer.position(tp);    
+    return consumer.position(tp);
   }
 }

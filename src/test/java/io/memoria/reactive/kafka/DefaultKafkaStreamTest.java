@@ -25,21 +25,28 @@ class DefaultKafkaStreamTest {
   }
 
   @Test
+  @Order(1)
+  void publish() {
+    // Given
+    var msgs = Flux.range(0, MSG_COUNT).map(i -> new Msg(Id.of(i), "hello" + i));
+    // When
+    var pub = repo.publish(TOPIC, PARTITION, msgs);
+    // Then
+    StepVerifier.create(pub).expectNextCount(MSG_COUNT).verifyComplete();
+  }
+
+  @Test
+  @Order(3)
+  void sizeAfter() {
+    var size = repo.size(TOPIC, PARTITION);
+    StepVerifier.create(size).expectNext((long) MSG_COUNT).verifyComplete();
+  }
+
+  @Test
   @Order(0)
   void sizeBefore() {
     var size = repo.size(TOPIC, PARTITION);
     StepVerifier.create(size).expectNext(0L).verifyComplete();
-  }
-
-  @Test
-  @Order(1)
-  void publish() {
-    // Given
-    var msgs = Flux.range(0, MSG_COUNT).map(i -> new Msg(TOPIC, PARTITION, Id.of(i), "hello" + i));
-    // When
-    var pub = repo.publish(msgs);
-    // Then
-    StepVerifier.create(pub).expectNextCount(MSG_COUNT).verifyComplete();
   }
 
   @Test
@@ -50,12 +57,5 @@ class DefaultKafkaStreamTest {
     var sub = repo.subscribe(TOPIC, PARTITION, 0).take(MSG_COUNT);
     // Given
     StepVerifier.create(sub).expectNextCount(MSG_COUNT).verifyComplete();
-  }
-
-  @Test
-  @Order(3)
-  void sizeAfter() {
-    var size = repo.size(TOPIC, PARTITION);
-    StepVerifier.create(size).expectNext((long) MSG_COUNT).verifyComplete();
   }
 }
