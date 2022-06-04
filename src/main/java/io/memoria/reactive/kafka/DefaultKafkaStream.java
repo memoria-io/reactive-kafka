@@ -19,7 +19,6 @@ import java.util.function.Supplier;
 
 import static java.util.Collections.singleton;
 
-@SuppressWarnings("ClassCanBeRecord")
 class DefaultKafkaStream implements KafkaStream {
   private static final Logger log = LoggerFactory.getLogger(DefaultKafkaStream.class.getName());
   public final Map<String, Object> producerConfig;
