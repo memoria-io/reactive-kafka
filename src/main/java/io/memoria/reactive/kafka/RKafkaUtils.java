@@ -16,11 +16,12 @@ class RKafkaUtils {
   }
 
   public static long topicSize(String topic, int partition, Map<String, Object> conf) {
-    var consumer = new KafkaConsumer<Long, String>(conf.toJavaMap());
-    var tp = new TopicPartition(topic, partition);
-    var tpCol = List.of(tp).toJavaList();
-    consumer.assign(tpCol);
-    consumer.seekToEnd(tpCol);
-    return consumer.position(tp);    
+    try (var consumer = new KafkaConsumer<Long, String>(conf.toJavaMap())) {
+      var tp = new TopicPartition(topic, partition);
+      var tpCol = List.of(tp).toJavaList();
+      consumer.assign(tpCol);
+      consumer.seekToEnd(tpCol);
+      return consumer.position(tp);
+    }
   }
 }
