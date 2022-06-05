@@ -11,7 +11,7 @@
     <!--suppress MavenRedundantGroupId -->
     <groupId>io.memoria</groupId>
     <artifactId>reactive-kafka</artifactId>
-    <version>0.0.1</version>
+    <version>2022.18.1</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}.${project.artifactId}</name>
