@@ -11,7 +11,7 @@
     <!--suppress MavenRedundantGroupId -->
     <groupId>io.memoria</groupId>
     <artifactId>reactive-kafka</artifactId>
-    <version>2022.18.3</version>
+    <version>2022.18.4</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}.${project.artifactId}</name>
@@ -26,6 +26,17 @@
         <reactive.version>2022.18.6</reactive.version>
     </properties>
 
+    <distributionManagement>
+        <site>
+            <id>${project.artifactId}-site</id>
+            <url>ftp://memoria.io/</url>
+        </site>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/memoria-io/reactive-kafka</url>
+        </repository>
+    </distributionManagement>
     <repositories>
         <repository>
             <id>github</id>

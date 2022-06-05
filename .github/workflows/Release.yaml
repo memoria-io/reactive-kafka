@@ -19,8 +19,8 @@ jobs:
           java-version: '18'
       - name: Docker compose
         run: docker-compose up -d
-      - name: Test
-        run: sleep 60
+      - name: Sleeping
+        run: sleep 10
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
