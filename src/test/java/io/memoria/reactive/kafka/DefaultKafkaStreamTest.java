@@ -21,7 +21,7 @@ class DefaultKafkaStreamTest {
   private static final Stream repo;
 
   static {
-    repo = KafkaStream.create(TestUtils.producerConfigs(), TestUtils.consumerConfigs(), () -> 1L);
+    repo = KafkaStream.create(Dataset.producerConfigs(), Dataset.consumerConfigs(), () -> 1L);
   }
 
   @Test

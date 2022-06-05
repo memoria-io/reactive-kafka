@@ -8,8 +8,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 
-class RKafkaUtils {
-  private RKafkaUtils() {}
+class KafkaUtils {
+  private KafkaUtils() {}
 
   public static Msg toMsg(ConsumerRecord<String, String> record) {
     return new Msg(record.topic(), record.partition(), Id.of(record.key()), record.value());

@@ -41,12 +41,12 @@ class DefaultKafkaStream implements KafkaStream {
 
   @Override
   public Mono<Long> size(String topic, int partition) {
-    return Mono.fromCallable(() -> RKafkaUtils.topicSize(topic, partition, consumerConfig));
+    return Mono.fromCallable(() -> KafkaUtils.topicSize(topic, partition, consumerConfig));
   }
 
   @Override
   public Flux<Msg> subscribe(String topic, int partition, long offset) {
-    return receive(topic, partition, offset).map(RKafkaUtils::toMsg);
+    return receive(topic, partition, offset).map(KafkaUtils::toMsg);
   }
 
   private Flux<ReceiverRecord<String, String>> receive(String topic, int partition, long offset) {
